@@ -1,7 +1,9 @@
 class Menu
 
+  attr_reader :list_of_dishes
+
   def initialize
-    @menu = [
+    @list_of_dishes = [
       {dish: 'spaghetti alle vongole', price: '12.50'},
       {dish: 'spaghetti alla carbonara', price: '14.40'},
       {dish: 'parmigiana', price: '11.30'},
@@ -14,6 +16,6 @@ class Menu
   end
 
   def see_menu
-    @menu.each { |dishes| puts "#{dishes[:dish]}: £#{dishes[:price]}" }
+    @list_of_dishes.each { |dishes| puts "#{dishes[:dish]}: £#{dishes[:price]}" }
   end
 end

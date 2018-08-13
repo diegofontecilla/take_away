@@ -1,13 +1,8 @@
 require 'menu'
 
 describe Menu do
-
   context '#see_menu' do
-    # it 'print a dish with it\'s price' do
-    #   menu = Menu.new
-    #   expect { menu.see_menu }.to output("spaghetti alle vongole: £12.50\n").to_stdout
-    # end
-
+  
     it 'print a list of dishes with prices' do
       menu = Menu.new
       list = "spaghetti alle vongole: £12.50\nspaghetti alla carbonara: £14.40
