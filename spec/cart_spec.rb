@@ -37,10 +37,17 @@ describe Cart do
       expect { cart.your_selection }.to output("spaghetti alle vongole: £12.50, total £12.50\n").to_stdout
     end
 
-    it  'user can see a selection of two dish, its price and the total' do
+    it  'user can see a selection of two dish, its prices and the total' do
       cart.select_dish('spaghetti alle vongole')
       cart.select_dish('spaghetti alla carbonara')
       expect { cart.your_selection }.to output("spaghetti alle vongole: £12.50, total £12.50\nspaghetti alla carbonara: £14.40, total £26.90\n").to_stdout
+    end
+
+    it  'user can see a selection of three dishes, its prices and the total' do
+      cart.select_dish('lasagna al forno')
+      cart.select_dish('spaghetti alle vongole')
+      cart.select_dish('spaghetti alla carbonara')
+      expect { cart.your_selection }.to output("lasagna al forno: £14.60, total £14.60\nspaghetti alle vongole: £12.50, total £27.10\nspaghetti alla carbonara: £14.40, total £41.50\n").to_stdout
     end
   end
 end
