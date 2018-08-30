@@ -40,8 +40,10 @@ describe Cart do
   context '#your_selection' do
 
     it  'user can see a selection of one dish, its price and the total' do
-      cart.select_dish('spaghetti alle vongole')
-      expect { cart.your_selection }.to output("spaghetti alle vongole: £12.50, total £12.50\n").to_stdout
+      menu_array = [{dish: 'spaghetti alle vongole', price: '12.50'}]
+      allow(fake_menu).to receive(:list_of_dishes).and_return(menu_array)
+      cart_2.select_dish('spaghetti alle vongole')
+      expect { cart_2.your_selection }.to output("spaghetti alle vongole: £12.50, total £12.50\n").to_stdout
     end
 
     it  'user can see a selection of two dish, its prices and the total' do
