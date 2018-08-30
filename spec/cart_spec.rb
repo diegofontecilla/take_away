@@ -1,5 +1,4 @@
 require 'cart'
-#  require 'menu'
 
 describe Cart do
 
@@ -10,25 +9,31 @@ describe Cart do
   context '#select dish' do
 
     it 'user can select a dish from the menu' do
-      selection = [{dish: 'spaghetti alle vongole', price: '12.50'}]
-      allow(fake_menu).to receive(:list_of_dishes).and_return(selection)
+      menu_array = [{dish: 'spaghetti alle vongole', price: '12.50'}]
+      allow(fake_menu).to receive(:list_of_dishes).and_return(menu_array)
       cart_2.select_dish('spaghetti alle vongole')
-      expect(cart_2.selected_dishes).to eq(selection)
+      expect(cart_2.selected_dishes).to eq(menu_array)
     end
 
-    it 'user can select several hashes with dishes and prices from the menu' do
-      cart.select_dish('spaghetti alle vongole')
-      cart.select_dish('zucchine ripiene alla ligure')
-      expect(cart.selected_dishes).to include({dish: 'zucchine ripiene alla ligure', price: '14.70'})
+    it 'user can select several dishes from the menu' do
+      menu_array = [{dish: 'spaghetti alle vongole', price: '12.50'},
+                    {dish: 'zucchine ripiene alla ligure', price: '14.70'}]
+      allow(fake_menu).to receive(:list_of_dishes).and_return(menu_array)
+      cart_2.select_dish('spaghetti alle vongole')
+      cart_2.select_dish('zucchine ripiene alla ligure')
+      expect(cart_2.selected_dishes).to eq(menu_array)
     end
   end
 
   context '#give_total' do
 
     it 'return the sum of the prices of two dishes' do
-      cart.select_dish('spaghetti alle vongole')
-      cart.select_dish('zucchine ripiene alla ligure')
-      expect(cart.give_total).to eq('£27.20')
+      menu_array = [{dish: 'spaghetti alle vongole', price: '12.50'},
+                    {dish: 'zucchine ripiene alla ligure', price: '14.70'}]
+      allow(fake_menu).to receive(:list_of_dishes).and_return(menu_array)
+      cart_2.select_dish('spaghetti alle vongole')
+      cart_2.select_dish('zucchine ripiene alla ligure')
+      expect(cart_2.give_total).to eq('£27.20')
     end
   end
 
