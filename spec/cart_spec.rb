@@ -1,17 +1,19 @@
 require 'cart'
-require 'menu'
+#  require 'menu'
 
 describe Cart do
 
   let(:fake_menu) { double(:menu) }
   subject(:cart) { described_class.new }
-  # let(:fake_new_dish) { double(:new_dish)}
+  subject(:cart_2) { described_class.new(fake_menu) }
 
   context '#select dish' do
 
-    it 'user can select a hash with dish and price from the menu' do
-      cart.select_dish('spaghetti alle vongole')
-      expect(cart.selected_dishes).not_to be_empty
+    it 'user can select a dish from the menu' do
+      selection = [{dish: 'spaghetti alle vongole', price: '12.50'}]
+      allow(fake_menu).to receive(:list_of_dishes).and_return(selection)
+      cart_2.select_dish('spaghetti alle vongole')
+      expect(cart_2.selected_dishes).to eq(selection)
     end
 
     it 'user can select several hashes with dishes and prices from the menu' do
