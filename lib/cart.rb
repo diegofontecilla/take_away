@@ -18,6 +18,7 @@ class Cart
   def your_selection
     add = 0
     @selected_dishes.each do |s|
+
       puts "#{s[:dish]}: £#{s[:price]}, total £#{add += s[:price].to_f}0"
     end
   end
@@ -28,5 +29,9 @@ class Cart
       add += selection[:price].to_f
     end
     "£#{add.to_s}0"
+  end
+
+  def see_the_menu
+    @menu.see_menu
   end
 end

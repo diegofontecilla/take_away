@@ -1,6 +1,6 @@
 class Menu
 
-  attr_reader :list_of_dishes
+attr_reader :list_of_dishes
 
   def initialize
     @list_of_dishes = [
