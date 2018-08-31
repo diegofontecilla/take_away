@@ -49,15 +49,15 @@ describe Cart do
     it  'user can see a selection of one dish, its price and the total' do
       allow(fake_menu).to receive(:list_of_dishes).and_return(menu_array)
       cart_2.select_dish('spaghetti alle vongole')
-      expect { cart_2.your_selection }.to output("spaghetti alle vongole: £12.50, total £12.50\n").to_stdout
+      expect { cart_2.your_selection }.to output("1 spaghetti alle vongole: £12.50, total £12.50\n").to_stdout
     end
 
     it  'user can see a selection of two dishes, its prices and the total' do
       allow(fake_menu).to receive(:list_of_dishes).and_return(menu_array)
       cart_2.select_dish('spaghetti alle vongole')
       cart_2.select_dish('spaghetti alla carbonara')
-      expect { cart_2.your_selection }.to output("spaghetti alle vongole: £12.50, total £12.50
-spaghetti alla carbonara: £14.40, total £26.90\n").to_stdout
+      expect { cart_2.your_selection }.to output("1 spaghetti alle vongole: £12.50, total £12.50
+1 spaghetti alla carbonara: £14.40, total £26.90\n").to_stdout
     end
 
     it  'user can see a selection of three dishes, its prices and the total' do
@@ -65,9 +65,9 @@ spaghetti alla carbonara: £14.40, total £26.90\n").to_stdout
       cart_2.select_dish('lasagna al forno')
       cart_2.select_dish('spaghetti alle vongole')
       cart_2.select_dish('spaghetti alla carbonara')
-      expect { cart_2.your_selection }.to output("lasagna al forno: £14.60, total £14.60
-spaghetti alle vongole: £12.50, total £27.10
-spaghetti alla carbonara: £14.40, total £41.50\n").to_stdout
+      expect { cart_2.your_selection }.to output("1 lasagna al forno: £14.60, total £14.60
+1 spaghetti alle vongole: £12.50, total £27.10
+1 spaghetti alla carbonara: £14.40, total £41.50\n").to_stdout
     end
   end
 end

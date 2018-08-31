@@ -17,9 +17,13 @@ class Cart
 
   def your_selection
     add = 0
+    count_dish = []
     @selected_dishes.each do |s|
-
-      puts "#{s[:dish]}: £#{s[:price]}, total £#{add += s[:price].to_f}0"
+      n = @selected_dishes.count(s)
+      if !count_dish.include?(s)
+        puts "#{n} #{s[:dish]}: £#{s[:price]}, total £#{add += s[:price].to_f * n}0"
+      end
+      count_dish << s
     end
   end
 
