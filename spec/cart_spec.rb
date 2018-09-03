@@ -2,10 +2,6 @@ require 'cart'
 
 describe Cart do
 
-  let(:fake_menu) { double(:menu) }
-  let(:fake_messenger) { double(:messenger) }
-  subject(:cart) { described_class.new(fake_menu) }
-
   menu_array = [
     {dish: 'spaghetti alle vongole', price: '12.50'},
     {dish: 'spaghetti alla carbonara', price: '14.40'},
@@ -17,16 +13,18 @@ describe Cart do
     {dish: 'zucchine ripiene alla ligure', price: '14.70'}
     ]
 
+  let(:fake_menu) { double(:menu, :list_of_dishes => menu_array) }
+  let(:fake_messenger) { double(:messenger) }
+  subject(:cart) { described_class.new(fake_menu, fake_messenger) }
+
   context '#select dish' do
 
     it 'user can select a dish from the menu' do
-      allow(fake_menu).to receive(:list_of_dishes).and_return(menu_array)
       cart.select_dish('spaghetti alle vongole')
       expect(cart.selection_printer).to eq([{dish: 'spaghetti alle vongole', price: '12.50'}])
     end
 
     it 'user can select several dishes from the menu' do
-      allow(fake_menu).to receive(:list_of_dishes).and_return(menu_array)
       cart.select_dish('spaghetti alle vongole')
       cart.select_dish('zucchine ripiene alla ligure')
       expect(cart.selection_printer).to eq([{dish: 'spaghetti alle vongole', price: '12.50'},
@@ -37,7 +35,6 @@ describe Cart do
   context '#give_total' do
 
     it 'return the sum of the prices of two dishes' do
-      allow(fake_menu).to receive(:list_of_dishes).and_return(menu_array)
       cart.select_dish('spaghetti alle vongole')
       cart.select_dish('zucchine ripiene alla ligure')
       expect(cart.give_total).to eq('£27.20')
@@ -47,13 +44,11 @@ describe Cart do
   context '#selection_printer' do
 
     it 'user can see a selection of one dish, its price and the total' do
-      allow(fake_menu).to receive(:list_of_dishes).and_return(menu_array)
       cart.select_dish('spaghetti alle vongole')
       expect { cart.selection_printer }.to output("1 spaghetti alle vongole: £12.50, total £12.50\n").to_stdout
     end
 
     it 'user can see a selection of two dishes, its prices and the total' do
-      allow(fake_menu).to receive(:list_of_dishes).and_return(menu_array)
       cart.select_dish('spaghetti alle vongole')
       cart.select_dish('spaghetti alla carbonara')
       expect { cart.selection_printer }.to output("1 spaghetti alle vongole: £12.50, total £12.50
@@ -61,7 +56,6 @@ describe Cart do
     end
 
     it 'user can see a selection of three dishes, its prices and the total' do
-      allow(fake_menu).to receive(:list_of_dishes).and_return(menu_array)
       cart.select_dish('lasagna al forno')
       cart.select_dish('spaghetti alle vongole')
       cart.select_dish('spaghetti alla carbonara')
@@ -74,10 +68,13 @@ describe Cart do
   context '#place_order' do
 
     it 'send a text confirmation sms when there are selected dishes' do
-      # message = "Thank you! Your order was placed and will be delivered before 20:30"
-      # allow(fake_messenger).to receive(:send_message).and_return(message)
-      # cart.select_dish('lasagna al forno')
-      # expect(cart.place_order).to eq(message)
+      allow(fake_messenger).to receive(:send_message).and_return("message")
+      cart.select_dish('lasagna al forno')
+      expect(cart.place_order).to eq("message")
+    end
+
+    it 'print message saying that cart is empty when there are no dishes in the order' do
+      expect { cart.place_order }.to output("Your cart is empty, please choose a dish\n").to_stdout
     end
   end
 end
