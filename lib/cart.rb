@@ -3,8 +3,6 @@ require_relative 'messenger'
 
 class Cart
 
-  attr_reader :selected_dishes
-
   def initialize(menu = Menu.new, messenger = Messenger.new)
     @selected_dishes = []
     @menu = menu
@@ -48,4 +46,9 @@ class Cart
       puts "Your cart is empty, please choose a dish"
     end
   end
+
+  private
+
+  attr_reader :selected_dishes
+
 end
