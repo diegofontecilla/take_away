@@ -1,12 +1,15 @@
 require_relative 'menu'
+require_relative 'messenger'
 
 class Cart
 
   attr_reader :selected_dishes
 
-  def initialize(menu = Menu.new)
+  def initialize(menu = Menu.new, messenger = Messenger.new)
     @selected_dishes = []
     @menu = menu
+    @count_dish = []
+    @messenger = messenger
   end
 
   def select_dish(new_dish)
@@ -15,15 +18,13 @@ class Cart
     end
   end
 
-  def your_selection
+  def selection_printer
     add = 0
-    count_dish = []
     @selected_dishes.each do |s|
       n = @selected_dishes.count(s)
-      if !count_dish.include?(s)
-        puts "#{n} #{s[:dish]}: £#{s[:price]}, total £#{add += s[:price].to_f * n}0"
-      end
-      count_dish << s
+      dish = "#{n} #{s[:dish]}: £#{s[:price]}, total £#{add += s[:price].to_f * n}0"
+      puts dish if !@count_dish.include?(s)
+      @count_dish << s
     end
   end
 
@@ -37,5 +38,14 @@ class Cart
 
   def see_the_menu
     @menu.see_menu
+  end
+
+  def place_order
+    if !@selected_dishes.empty?
+      selection_printer
+      @messenger.send_message
+    else
+      puts "Your cart is empty, please choose a dish"
+    end
   end
 end

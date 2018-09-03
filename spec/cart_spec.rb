@@ -3,6 +3,7 @@ require 'cart'
 describe Cart do
 
   let(:fake_menu) { double(:menu) }
+  let(:fake_messenger) { double(:messenger) }
   subject(:cart) { described_class.new }
   subject(:cart_2) { described_class.new(fake_menu) }
 
@@ -44,30 +45,40 @@ describe Cart do
     end
   end
 
-  context '#your_selection' do
+  context '#selection_printer' do
 
-    it  'user can see a selection of one dish, its price and the total' do
+    it 'user can see a selection of one dish, its price and the total' do
       allow(fake_menu).to receive(:list_of_dishes).and_return(menu_array)
       cart_2.select_dish('spaghetti alle vongole')
-      expect { cart_2.your_selection }.to output("1 spaghetti alle vongole: £12.50, total £12.50\n").to_stdout
+      expect { cart_2.selection_printer }.to output("1 spaghetti alle vongole: £12.50, total £12.50\n").to_stdout
     end
 
-    it  'user can see a selection of two dishes, its prices and the total' do
+    it 'user can see a selection of two dishes, its prices and the total' do
       allow(fake_menu).to receive(:list_of_dishes).and_return(menu_array)
       cart_2.select_dish('spaghetti alle vongole')
       cart_2.select_dish('spaghetti alla carbonara')
-      expect { cart_2.your_selection }.to output("1 spaghetti alle vongole: £12.50, total £12.50
+      expect { cart_2.selection_printer }.to output("1 spaghetti alle vongole: £12.50, total £12.50
 1 spaghetti alla carbonara: £14.40, total £26.90\n").to_stdout
     end
 
-    it  'user can see a selection of three dishes, its prices and the total' do
+    it 'user can see a selection of three dishes, its prices and the total' do
       allow(fake_menu).to receive(:list_of_dishes).and_return(menu_array)
       cart_2.select_dish('lasagna al forno')
       cart_2.select_dish('spaghetti alle vongole')
       cart_2.select_dish('spaghetti alla carbonara')
-      expect { cart_2.your_selection }.to output("1 lasagna al forno: £14.60, total £14.60
+      expect { cart_2.selection_printer }.to output("1 lasagna al forno: £14.60, total £14.60
 1 spaghetti alle vongole: £12.50, total £27.10
 1 spaghetti alla carbonara: £14.40, total £41.50\n").to_stdout
+    end
+  end
+
+  context '#place_order' do
+
+    it 'send a text confirmation sms when there are selected dishes' do
+      # message = "Thank you! Your order was placed and will be delivered before 20:30"
+      # allow(fake_messenger).to receive(:send_message).and_return(message)
+      # cart_2.select_dish('lasagna al forno')
+      # expect(cart_2.place_order).to eq(message)
     end
   end
 end
