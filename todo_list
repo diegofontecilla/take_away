@@ -1,0 +1,3 @@
+-Set effectively ENV[name] (environment variables for account_sid and auth_token).
+-Create a new class for formatting the strings for #selection_printer and #give_total(single
+responsibility).

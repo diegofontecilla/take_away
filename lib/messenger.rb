@@ -3,10 +3,7 @@ require 'twilio-ruby'
 
 class Messenger
 
-  ENV['account_sid'] = "ACcfaf4b488a9c4f1b1dcc213de0e0e393"
-  ENV['auth_token'] = "5e64970ac93af7cb2047be1bbb494716"
-
-  def initialize(client = Twilio::REST::Client.new('account_sid', 'auth_token'))
+  def initialize(client = Twilio::REST::Client.new("ACcfaf4b488a9c4f1b1dcc213de0e0e393", "5e64970ac93af7cb2047be1bbb494716"))
     @client = client
   end
 
